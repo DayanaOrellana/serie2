@@ -20,12 +20,13 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
     @GetMapping
-    public List<Cliente> listarClientes() {
+    public List<Cliente> getAllClientes() {
         return clienteRepository.findAll();
     }
 
     @PostMapping
-    public Cliente crearCliente(@RequestBody Cliente cliente) {
+    public Cliente createCliente(@RequestBody Cliente cliente) {
         return clienteRepository.save(cliente);
     }
 }
+
