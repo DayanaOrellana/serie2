@@ -1,4 +1,4 @@
-package com.empresa.logistica.model;
+package com.empresa.logistica.clientes_pedidos.model;
 
 import java.util.ArrayList;
 import java.util.List;

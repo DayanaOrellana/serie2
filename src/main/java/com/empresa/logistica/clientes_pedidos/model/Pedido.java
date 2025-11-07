@@ -1,4 +1,4 @@
-package com.empresa.logistica.model;
+package com.empresa.logistica.clientes_pedidos.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -21,7 +21,7 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    @JsonBackReference  // 👈 evita recursión inversa
+    @JsonBackReference
     private Cliente cliente;
 
     public Pedido() {}
@@ -33,12 +33,14 @@ public class Pedido {
     }
 
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public String getProducto() { return producto; }
     public void setProducto(String producto) { this.producto = producto; }
+
     public int getCantidad() { return cantidad; }
     public void setCantidad(int cantidad) { this.cantidad = cantidad; }
+
     public Cliente getCliente() { return cliente; }
     public void setCliente(Cliente cliente) { this.cliente = cliente; }
 }
-
-
