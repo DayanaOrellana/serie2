@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Clientes</title>
+</head>
+<body>
+  <h1>Clientes</h1>
+
+  <form th:action="@{/clientes/guardar}" method="post">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" required>
+    <label>Correo:</label>
+    <input type="email" name="correo" required>
+    <button type="submit">Guardar</button>
+  </form>
+
+  <h2>Lista de clientes</h2>
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Correo</th>
+    </tr>
+    <tr th:each="cliente : ${clientes}">
+      <td th:text="${cliente.id}"></td>
+      <td th:text="${cliente.nombre}"></td>
+      <td th:text="${cliente.correo}"></td>
+    </tr>
+  </table>
+
+  <br>
+  <a href="/pedidos">Ir a Pedidos</a>
+</body>
+</html>

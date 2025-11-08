@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            padding: 30px;
+        }
+        h1 {
+            color: #2b2b2b;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 6px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            border-collapse: collapse;
+            width: 70%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pedidos</h1>
+
+    <form th:action="@{/pedidos/guardar}" method="post" th:object="${pedido}">
+    <label>Producto:</label>
+    <input type="text" th:field="*{producto}" required>
+    <label>Cantidad:</label>
+    <input type="number" th:field="*{cantidad}" required>
+    <label>ID Cliente:</label>
+    <input type="number" th:field="*{cliente.id}" required>
+    <button type="submit">Guardar</button>
+</form>
+
+
+    <h2>Lista de pedidos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>ID Cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pedido : ${pedidos}">
+                <td th:text="${pedido.id}"></td>
+                <td th:text="${pedido.producto}"></td>
+                <td th:text="${pedido.cantidad}"></td>
+                <td th:text="${pedido.cliente != null ? pedido.cliente.id : 'N/A'}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><a th:href="@{/clientes}">← Ir a Clientes</a></p>
+</body>
+</html>
+
