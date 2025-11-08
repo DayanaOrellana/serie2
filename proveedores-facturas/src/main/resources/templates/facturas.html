@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facturas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #fdfdfd;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1e8449;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px;
+        }
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f8f9f9;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestión de Facturas</h1>
+
+    <form th:action="@{/facturas/guardar}" method="post" th:object="${factura}">
+        <input type="text" th:field="*{descripcion}" placeholder="Descripción" required>
+        <input type="number" th:field="*{monto}" placeholder="Monto" required>
+        <input type="number" name="proveedorId" placeholder="ID Proveedor" required>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <h2>Lista de Facturas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th><th>Descripción</th><th>Monto</th><th>ID Proveedor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="f : ${facturas}">
+                <td th:text="${f.id}"></td>
+                <td th:text="${f.descripcion}"></td>
+                <td th:text="${f.monto}"></td>
+                <td th:text="${f.proveedor != null ? f.proveedor.id : 'N/A'}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><a th:href="@{/proveedores}">← Ir a Proveedores</a></p>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Proveedores</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f3f4f6;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+        }
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        a {
+            color: #27ae60;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestión de Proveedores</h1>
+
+    <form th:action="@{/proveedores/guardar}" method="post" th:object="${proveedor}">
+        <input type="text" th:field="*{nombre}" placeholder="Nombre" required>
+        <input type="text" th:field="*{empresa}" placeholder="Empresa" required>
+        <input type="email" th:field="*{correo}" placeholder="Correo" required>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <h2>Lista de Proveedores</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th><th>Nombre</th><th>Empresa</th><th>Correo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${proveedores}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.nombre}"></td>
+                <td th:text="${p.empresa}"></td>
+                <td th:text="${p.correo}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><a th:href="@{/facturas}">Ir a Facturas →</a></p>
+</body>
+</html>
