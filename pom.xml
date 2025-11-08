@@ -66,6 +66,16 @@
    				 <artifactId>spring-boot-starter-thymeleaf</artifactId>
 				</dependency>
 
+
+			<dependency>
+    	<groupId>com.empresa.logistica.utils</groupId>
+    	<artifactId>componente-c</artifactId>
+    	<version>1.0.0</version>
+    	<scope>system</scope>
+    	<systemPath>${project.basedir}/libs/componente-c-1.0.0.jar</systemPath>
+			</dependency>
+
+
 	</dependencies>
 
 	<build>

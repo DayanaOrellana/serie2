@@ -2,90 +2,177 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Pedidos</title>
+    <title>Gestión de Pedidos</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #fafafa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f9e5, #ffffff);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #2e8b57;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        main {
+            background-color: white;
+            width: 80%;
+            max-width: 900px;
+            margin: 30px auto;
             padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #2b2b2b;
+
+        h1, h2 {
+            text-align: center;
+            color: #2e8b57;
         }
+
         form {
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
         }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
         input[type="text"], input[type="number"] {
-            padding: 5px;
-            margin-right: 10px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 220px;
+            transition: 0.3s;
         }
+
+        input:focus {
+            border-color: #2e8b57;
+            outline: none;
+            box-shadow: 0 0 5px rgba(46,139,87,0.3);
+        }
+
         button {
-            padding: 6px 12px;
-            background-color: #4CAF50;
+            background-color: #2e8b57;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
         }
+
         button:hover {
-            background-color: #45a049;
+            background-color: #256c46;
         }
+
         table {
+            width: 100%;
             border-collapse: collapse;
-            width: 70%;
+            border-radius: 10px;
+            overflow: hidden;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+
+        th {
+            background-color: #2e8b57;
+            color: white;
+            padding: 10px;
             text-align: center;
         }
-        th {
-            background-color: #4CAF50;
-            color: white;
+
+        td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
         }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e6f7ee;
+        }
+
+        footer {
+            text-align: center;
+            margin: 20px;
+        }
+
         a {
             text-decoration: none;
-            color: #007BFF;
+            color: #2e8b57;
+            font-weight: bold;
         }
+
         a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>Pedidos</h1>
+    <header>
+        <h1>🛒 Gestión de Pedidos</h1>
+    </header>
 
-    <form th:action="@{/pedidos/guardar}" method="post" th:object="${pedido}">
-    <label>Producto:</label>
-    <input type="text" th:field="*{producto}" required>
-    <label>Cantidad:</label>
-    <input type="number" th:field="*{cantidad}" required>
-    <label>ID Cliente:</label>
-    <input type="number" th:field="*{cliente.id}" required>
-    <button type="submit">Guardar</button>
-</form>
+    <main>
+        <h2>Registrar nuevo pedido</h2>
+        <form th:action="@{/pedidos/guardar}" method="post" th:object="${pedido}">
+            <div>
+                <label>Producto:</label><br>
+                <input type="text" th:field="*{producto}" placeholder="Ej. Laptop Lenovo" required>
+            </div>
+            <div>
+                <label>Cantidad:</label><br>
+                <input type="number" th:field="*{cantidad}" placeholder="Ej. 5" required>
+            </div>
+            <div>
+                <label>ID Cliente:</label><br>
+                <!-- Este campo debe coincidir con @RequestParam Long clienteId -->
+                <input type="number" name="clienteId" placeholder="Ej. 1" required>
+            </div>
+            <div style="align-self: flex-end;">
+                <button type="submit">💾 Guardar</button>
+            </div>
+        </form>
 
+        <h2>Lista de pedidos registrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Cliente</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pedido : ${pedidos}">
+                    <td th:text="${pedido.id}"></td>
+                    <td th:text="${pedido.producto}"></td>
+                    <td th:text="${pedido.cantidad}"></td>
+                    <td th:text="${pedido.cliente != null ? pedido.cliente.nombre : 'Sin asignar'}"></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <h2>Lista de pedidos</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>ID Cliente</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="pedido : ${pedidos}">
-                <td th:text="${pedido.id}"></td>
-                <td th:text="${pedido.producto}"></td>
-                <td th:text="${pedido.cantidad}"></td>
-                <td th:text="${pedido.cliente != null ? pedido.cliente.id : 'N/A'}"></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <p><a th:href="@{/clientes}">← Ir a Clientes</a></p>
+        <footer>
+            <p><a th:href="@{/clientes}">← Volver a Clientes</a></p>
+        </footer>
+    </main>
 </body>
 </html>
-

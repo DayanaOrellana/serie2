@@ -22,15 +22,28 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
     // Mostrar lista de pedidos
-    @GetMapping("/pedidos")
+    @GetMapping("/clientes/pedidos")
     public String listarPedidos(Model model) {
         model.addAttribute("pedidos", pedidoRepository.findAll());
         model.addAttribute("pedido", new Pedido());
         return "pedidos";
     }
 
+    @GetMapping("/clientes")
+    public String listarClientes(Model model) {
+        model.addAttribute("clientes", clienteRepository.findAll());
+        model.addAttribute("cliente", new Cliente());
+        return "clientes"; // nombre del archivo .html (debe existir en templates)
+    }
+
+    @PostMapping("/clientes/guardar")
+    public String guardarCliente(@ModelAttribute Cliente cliente) {
+    clienteRepository.save(cliente);
+    return "redirect:/clientes";
+}
+
     // Guardar pedido desde el formulario
-    @PostMapping("/pedidos/guardar")
+    @PostMapping("/clientes/pedidos/guardar")
     public String guardarPedido(@ModelAttribute Pedido pedido) {
         if (pedido.getCliente() != null && pedido.getCliente().getId() != null) {
             Cliente cliente = clienteRepository.findById(pedido.getCliente().getId()).orElse(null);

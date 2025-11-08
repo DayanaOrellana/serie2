@@ -1,35 +1,171 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Gestión de Clientes</title>
+    <meta charset="UTF-8">
+    <title>Gestión de Clientes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #d4f8e8, #ffffff);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #2e8b57;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        main {
+            background-color: white;
+            width: 80%;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #2e8b57;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"], input[type="email"] {
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 220px;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus {
+            border-color: #2e8b57;
+            outline: none;
+            box-shadow: 0 0 5px rgba(46,139,87,0.3);
+        }
+
+        button {
+            background-color: #2e8b57;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #256c46;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #2e8b57;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e6f7ee;
+        }
+
+        footer {
+            text-align: center;
+            margin: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2e8b57;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <h1>Clientes</h1>
+    <header>
+        <h1>📋 Sistema de Gestión de Clientes</h1>
+    </header>
 
-  <form th:action="@{/clientes/guardar}" method="post">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" required>
-    <label>Correo:</label>
-    <input type="email" name="correo" required>
-    <button type="submit">Guardar</button>
-  </form>
+    <main>
+        <h2>Registrar nuevo cliente</h2>
+        <form th:action="@{/clientes/guardar}" method="post" th:object="${cliente}">
+            <div>
+                <label>Nombre:</label><br>
+                <input type="text" th:field="*{nombre}" placeholder="Ej. María López" required>
+            </div>
+            <div>
+                <label>Correo:</label><br>
+                <input type="email" th:field="*{correo}" placeholder="Ej. maria@gmail.com" required>
+            </div>
+            <div style="align-self: flex-end;">
+                <button type="submit">💾 Guardar</button>
+            </div>
+        </form>
 
-  <h2>Lista de clientes</h2>
-  <table border="1">
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Correo</th>
-    </tr>
-    <tr th:each="cliente : ${clientes}">
-      <td th:text="${cliente.id}"></td>
-      <td th:text="${cliente.nombre}"></td>
-      <td th:text="${cliente.correo}"></td>
-    </tr>
-  </table>
+        <h2>Lista de clientes registrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cliente : ${clientes}">
+                    <td th:text="${cliente.id}"></td>
+                    <td th:text="${cliente.nombre}"></td>
+                    <td th:text="${cliente.correo}"></td>
+                </tr>
+            </tbody>
+        </table>
 
-  <br>
-  <a href="/pedidos">Ir a Pedidos</a>
+        <footer>
+            <p><a th:href="@{/clientes/pedidos}">🛒 Ver Pedidos</a></p>
+        </footer>
+    </main>
 </body>
 </html>
